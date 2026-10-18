@@ -1,28 +1,32 @@
-# Rick and Morty Explorer
+# The Ultimate Rick and Morty Explorer
 
-Rick and Morty Explorer is a cross-platform mobile and web application for browsing characters and episodes from the Rick and Morty universe. It uses the public [Rick and Morty API](https://rickandmortyapi.com/) and presents the data through searchable, paginated, and accessible screens.
+A cross-platform Expo application that turns the public Rick and Morty API into a connected multiverse field guide. Browse every character, location, and episode, then follow the relationships between them.
 
-The project began as my 2023 final assignment for a mobile-programming course. Version 2 keeps the original character, episode, detail, about, and developer-profile features while rebuilding the experience for a modern Expo stack.
+The project began as a 2023 mobile-programming final assignment. It now uses a modern Expo stack and a redesigned experience for Android, iOS, and web.
 
 ## Features
 
-- Browse characters with status, species, and last-known location.
-- Search characters by name.
-- Open a detailed character profile with origin and episode count.
-- Browse and search episodes.
-- Load additional API pages without losing existing results.
-- Clear loading, empty, and network-error states.
-- Developer profile loaded from the GitHub API.
-- Android, iOS, and web support through Expo.
+- Live dashboard with API totals and a random-character portal.
+- Character search with status, gender, species, and type filters.
+- Complete character profiles with clickable origin, last location, and episode appearances.
+- Location explorer with name, type, and dimension filters.
+- Location details with complete resident manifests.
+- Episode search and season filtering.
+- Episode details with air dates and complete cast manifests.
+- Navigation between related characters, locations, and episodes.
+- Persistent favorites stored locally on the device.
+- Pagination, pull-to-refresh, loading, empty, and error states.
+- Raw API record links for every resource.
+- Responsive Android, iOS, and web interface.
 
 ## Tech stack
 
 - Expo SDK 57
-- React 19
-- React Native 0.86
+- React 19 and React Native 0.86
 - React Navigation 7
+- AsyncStorage
 - Jest and `jest-expo`
-- Rick and Morty API
+- Rick and Morty REST API
 
 ## Run locally
 
@@ -35,13 +39,15 @@ The project began as my 2023 final assignment for a mobile-programming course. V
 ### Setup
 
 ```bash
-git clone https://github.com/rockwellsinaga/TA-PPB-Rick-and-Morty-App.git
-cd TA-PPB-Rick-and-Morty-App
+git clone https://github.com/rockwellsinaga/rick-and-morty-explorer.git
+cd rick-and-morty-explorer
 npm install
 npm start
 ```
 
-From the Expo development server, open the project on Android, iOS, or web.
+From the Expo development server, press `w` for web, `a` for Android, or scan the QR code with Expo Go.
+
+No API key, environment file, or database is required.
 
 ## Quality checks
 
@@ -51,7 +57,7 @@ npm test
 npm run export:web
 ```
 
-GitHub Actions runs the same checks for pushes and pull requests targeting `main`.
+GitHub Actions runs the same checks for pushes and pull requests.
 
 ## Project structure
 
@@ -60,27 +66,16 @@ GitHub Actions runs the same checks for pushes and pull requests targeting `main
 ├── App.js
 ├── src/
 │   ├── api/
-│   │   ├── __tests__/
-│   │   └── rickAndMortyApi.js
 │   ├── components/
-│   │   ├── CharacterCard.js
-│   │   ├── ScreenState.js
-│   │   └── SearchBar.js
+│   ├── context/
+│   ├── hooks/
 │   ├── pages/
-│   │   ├── AboutScreen.js
-│   │   ├── DetailScreen.js
-│   │   ├── EpisodeScreen.js
-│   │   ├── HomeScreen.js
-│   │   └── ProfileScreen.js
 │   └── theme.js
+├── assets/
 ├── app.json
 └── package.json
 ```
 
-## Upgrade notes
-
-The original project used Expo SDK 49, React Native 0.72, and React Navigation 6. Version 2 upgrades those foundations and replaces class-based fetching with focused API helpers and functional screens. It also adds pagination, reusable state components, automated tests, and continuous integration.
-
 ## Data and attribution
 
-This project uses the community-built [Rick and Morty API](https://rickandmortyapi.com/documentation) for character and episode data. Rick and Morty and all related characters are the property of their respective rights holders. This is an unofficial learning and portfolio project and is not affiliated with Adult Swim.
+Character, location, and episode data come from the community-built [Rick and Morty API](https://rickandmortyapi.com/documentation). Rick and Morty and all related properties belong to their respective rights holders. This is an unofficial learning and portfolio project and is not affiliated with Adult Swim.

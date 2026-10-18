@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { colors } from '../theme';
@@ -18,9 +19,8 @@ export default function CharacterCard({ character, onPress }) {
     >
       <Image source={{ uri: character.image }} style={styles.image} />
       <View style={styles.content}>
-        <Text numberOfLines={2} style={styles.name}>
-          {character.name}
-        </Text>
+        <Text style={styles.id}>SPECIMEN #{character.id}</Text>
+        <Text numberOfLines={2} style={styles.name}>{character.name}</Text>
         <View style={styles.statusRow}>
           <View
             style={[
@@ -28,17 +28,14 @@ export default function CharacterCard({ character, onPress }) {
               { backgroundColor: statusColor[character.status] ?? colors.muted },
             ]}
           />
-          <Text style={styles.meta}>
-            {character.status} · {character.species}
-          </Text>
+          <Text style={styles.meta}>{character.status} · {character.species}</Text>
         </View>
-        <Text numberOfLines={1} style={styles.label}>
-          Last known location
-        </Text>
+        <Text numberOfLines={1} style={styles.label}>Last known location</Text>
         <Text numberOfLines={1} style={styles.meta}>
           {character.location?.name ?? 'Unknown'}
         </Text>
       </View>
+      <Ionicons color={colors.muted} name="chevron-forward" size={20} style={styles.chevron} />
     </Pressable>
   );
 }
@@ -47,7 +44,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: 16,
+    borderRadius: 18,
     borderWidth: 1,
     flexDirection: 'row',
     marginBottom: 14,
@@ -57,23 +54,30 @@ const styles = StyleSheet.create({
     opacity: 0.82,
   },
   image: {
-    height: 138,
-    width: 138,
+    height: 142,
+    width: 132,
   },
   content: {
     flex: 1,
     justifyContent: 'center',
     padding: 14,
   },
+  id: {
+    color: colors.cyan,
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1.1,
+    marginBottom: 5,
+  },
   name: {
     color: colors.text,
-    fontSize: 19,
-    fontWeight: '800',
+    fontSize: 18,
+    fontWeight: '900',
   },
   statusRow: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 12,
+    marginBottom: 11,
     marginTop: 7,
   },
   statusDot: {
@@ -84,11 +88,15 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.muted,
-    fontSize: 12,
+    fontSize: 11,
     marginBottom: 2,
   },
   meta: {
     color: colors.text,
-    fontSize: 13,
+    fontSize: 12,
+  },
+  chevron: {
+    alignSelf: 'center',
+    marginRight: 10,
   },
 });

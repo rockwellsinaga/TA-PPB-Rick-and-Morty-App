@@ -1,30 +1,29 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { colors } from '../theme';
 
-export default function SearchBar({
-  value,
-  onChangeText,
-  onSubmit,
-  placeholder,
-  disabled = false,
-}) {
+export default function SearchBar({ value, onChangeText, onSubmit, placeholder, disabled = false }) {
   return (
     <View style={styles.container}>
-      <TextInput
-        accessibilityLabel={placeholder}
-        autoCapitalize="none"
-        autoCorrect={false}
-        editable={!disabled}
-        onChangeText={onChangeText}
-        onSubmitEditing={onSubmit}
-        placeholder={placeholder}
-        placeholderTextColor={colors.muted}
-        returnKeyType="search"
-        style={styles.input}
-        value={value}
-      />
+      <View style={styles.inputShell}>
+        <Ionicons color={colors.muted} name="search" size={20} />
+        <TextInput
+          accessibilityLabel={placeholder}
+          autoCapitalize="none"
+          autoCorrect={false}
+          editable={!disabled}
+          onChangeText={onChangeText}
+          onSubmitEditing={onSubmit}
+          placeholder={placeholder}
+          placeholderTextColor={colors.muted}
+          returnKeyType="search"
+          style={styles.input}
+          value={value}
+        />
+      </View>
       <Pressable
+        accessibilityLabel="Search"
         accessibilityRole="button"
         disabled={disabled}
         onPress={onSubmit}
@@ -34,7 +33,7 @@ export default function SearchBar({
           disabled && styles.buttonDisabled,
         ]}
       >
-        <Text style={styles.buttonText}>Search</Text>
+        <Ionicons color={colors.ink} name="arrow-forward" size={22} />
       </Pressable>
     </View>
   );
@@ -46,32 +45,35 @@ const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 16,
   },
-  input: {
-    flex: 1,
-    minHeight: 48,
-    borderColor: colors.border,
-    borderRadius: 12,
-    borderWidth: 1,
-    color: colors.text,
-    paddingHorizontal: 14,
+  inputShell: {
+    alignItems: 'center',
     backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 14,
+    borderWidth: 1,
+    flex: 1,
+    flexDirection: 'row',
+    minHeight: 52,
+    paddingLeft: 14,
+  },
+  input: {
+    color: colors.text,
+    flex: 1,
+    minHeight: 50,
+    paddingHorizontal: 14,
   },
   button: {
     alignItems: 'center',
     backgroundColor: colors.portal,
-    borderRadius: 12,
+    borderRadius: 14,
     justifyContent: 'center',
-    minHeight: 48,
-    paddingHorizontal: 18,
+    minHeight: 52,
+    paddingHorizontal: 16,
   },
   buttonPressed: {
     backgroundColor: colors.portalDark,
   },
   buttonDisabled: {
     opacity: 0.6,
-  },
-  buttonText: {
-    color: colors.background,
-    fontWeight: '800',
   },
 });

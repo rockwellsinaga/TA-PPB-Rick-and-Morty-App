@@ -5,7 +5,9 @@ import { colors } from '../theme';
 export function LoadingState({ label = 'Loading...' }) {
   return (
     <View style={styles.container}>
-      <ActivityIndicator color={colors.portal} size="large" />
+      <View style={styles.loaderRing}>
+        <ActivityIndicator color={colors.portal} size="large" />
+      </View>
       <Text style={styles.message}>{label}</Text>
     </View>
   );
@@ -44,6 +46,16 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     marginTop: 10,
     textAlign: 'center',
+  },
+  loaderRing: {
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 40,
+    borderWidth: 1,
+    height: 70,
+    justifyContent: 'center',
+    width: 70,
   },
   button: {
     backgroundColor: colors.portal,
