@@ -1,6 +1,6 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 export function LoadingState({ label = 'Loading...' }) {
   return (
@@ -36,13 +36,14 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text,
+    fontFamily: fonts.display,
     fontSize: 20,
-    fontWeight: '800',
     marginBottom: 8,
     textAlign: 'center',
   },
   message: {
     color: colors.muted,
+    fontFamily: fonts.body,
     lineHeight: 22,
     marginTop: 10,
     textAlign: 'center',
@@ -66,6 +67,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.background,
-    fontWeight: '800',
+    fontFamily: fonts.bodyBold,
   },
 });

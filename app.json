@@ -19,7 +19,11 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "output": "single"
+    },
+    "experiments": {
+      "baseUrl": "/rick-and-morty-explorer"
     },
     "plugins": [
       "expo-status-bar",

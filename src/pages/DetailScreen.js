@@ -6,7 +6,8 @@ import { ApiRecordLink, DetailRow, formatDatabaseDate, LinkCard, SectionTitle } 
 import FavoriteButton from '../components/FavoriteButton';
 import { EpisodeCard } from '../components/ResourceCards';
 import { LoadingState, MessageState } from '../components/ScreenState';
-import { colors } from '../theme';
+import ShareButton from '../components/ShareButton';
+import { colors, fonts } from '../theme';
 
 const statusColor = { Alive: colors.portal, Dead: colors.danger, unknown: colors.muted };
 
@@ -48,7 +49,10 @@ export default function DetailScreen({ route, navigation }) {
         <View style={[styles.statusDot, { backgroundColor: statusColor[character.status] ?? colors.muted }]} />
         <Text style={styles.summary}>{character.status} · {character.species}{character.type ? ` · ${character.type}` : ''}</Text>
       </View>
-      <FavoriteButton item={character} resourceType="character" />
+      <View style={styles.actions}>
+        <FavoriteButton item={character} resourceType="character" />
+        <ShareButton item={character} resourceType="character" />
+      </View>
 
       <SectionTitle eyebrow="IDENTITY FILE" title="Specimen details" />
       <View style={styles.panel}>
@@ -79,10 +83,11 @@ const styles = StyleSheet.create({
   imageShell: { alignSelf: 'center', maxWidth: 390, position: 'relative', width: '100%' },
   image: { aspectRatio: 1, borderColor: colors.portal, borderRadius: 26, borderWidth: 3, width: '100%' },
   idBadge: { backgroundColor: colors.ink, borderColor: colors.portal, borderRadius: 999, borderWidth: 1, bottom: 14, paddingHorizontal: 12, paddingVertical: 7, position: 'absolute', right: 14 },
-  idText: { color: colors.portal, fontWeight: '900' },
-  name: { color: colors.text, fontSize: 31, fontWeight: '900', marginTop: 20, textAlign: 'center' },
+  idText: { color: colors.portal, fontFamily: fonts.bodyBold },
+  name: { color: colors.text, fontFamily: fonts.displayHeavy, fontSize: 28, marginTop: 20, textAlign: 'center' },
   statusLine: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 7 },
   statusDot: { borderRadius: 5, height: 9, marginRight: 8, width: 9 },
-  summary: { color: colors.muted, fontSize: 15, textAlign: 'center' },
+  summary: { color: colors.muted, fontFamily: fonts.body, fontSize: 15, textAlign: 'center' },
+  actions: { flexDirection: 'row', gap: 10, justifyContent: 'center' },
   panel: { backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 16, borderWidth: 1, paddingHorizontal: 18 },
 });

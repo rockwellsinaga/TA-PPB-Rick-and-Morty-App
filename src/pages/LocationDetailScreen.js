@@ -7,8 +7,9 @@ import CharacterTile from '../components/CharacterTile';
 import { ApiRecordLink, DetailRow, formatDatabaseDate, SectionTitle } from '../components/DetailElements';
 import FavoriteButton from '../components/FavoriteButton';
 import { LoadingState, MessageState } from '../components/ScreenState';
+import ShareButton from '../components/ShareButton';
 import useResolvedResource from '../hooks/useResolvedResource';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 export default function LocationDetailScreen({ route, navigation }) {
   const { item: location, loading, error } = useResolvedResource(route.params?.location, route.params?.locationUrl);
@@ -43,7 +44,10 @@ export default function LocationDetailScreen({ route, navigation }) {
         <Text style={styles.eyebrow}>LOCATION #{location.id}</Text>
         <Text style={styles.title}>{location.name}</Text>
         <Text style={styles.subtitle}>{location.type || 'Unknown type'} · {location.dimension || 'Unknown dimension'}</Text>
-        <FavoriteButton item={location} resourceType="location" />
+        <View style={styles.actions}>
+          <FavoriteButton item={location} resourceType="location" />
+          <ShareButton item={location} resourceType="location" />
+        </View>
       </View>
 
       <SectionTitle eyebrow="CITADEL CARTOGRAPHY" title="Location record" />
@@ -75,9 +79,10 @@ const styles = StyleSheet.create({
   content: { alignSelf: 'center', maxWidth: 760, padding: 20, paddingBottom: 48, width: '100%' },
   hero: { alignItems: 'center', backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 24, borderWidth: 1, overflow: 'hidden', padding: 24 },
   planet: { alignItems: 'center', backgroundColor: '#45d7df18', borderColor: colors.cyan, borderRadius: 54, borderWidth: 1, height: 108, justifyContent: 'center', marginBottom: 17, width: 108 },
-  eyebrow: { color: colors.cyan, fontSize: 10, fontWeight: '900', letterSpacing: 1.4 },
-  title: { color: colors.text, fontSize: 29, fontWeight: '900', marginTop: 7, textAlign: 'center' },
-  subtitle: { color: colors.muted, fontSize: 14, marginTop: 7, textAlign: 'center' },
+  eyebrow: { color: colors.cyan, fontFamily: fonts.bodyBold, fontSize: 10, letterSpacing: 1.4 },
+  title: { color: colors.text, fontFamily: fonts.displayHeavy, fontSize: 27, marginTop: 7, textAlign: 'center' },
+  subtitle: { color: colors.muted, fontFamily: fonts.body, fontSize: 14, marginTop: 7, textAlign: 'center' },
+  actions: { flexDirection: 'row', gap: 10, justifyContent: 'center' },
   panel: { backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 16, borderWidth: 1, paddingHorizontal: 18 },
   rail: { marginHorizontal: -20, paddingHorizontal: 20 },
 });

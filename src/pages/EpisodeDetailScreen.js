@@ -7,8 +7,9 @@ import CharacterTile from '../components/CharacterTile';
 import { ApiRecordLink, DetailRow, formatDatabaseDate, SectionTitle } from '../components/DetailElements';
 import FavoriteButton from '../components/FavoriteButton';
 import { LoadingState, MessageState } from '../components/ScreenState';
+import ShareButton from '../components/ShareButton';
 import useResolvedResource from '../hooks/useResolvedResource';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 export default function EpisodeDetailScreen({ route, navigation }) {
   const { item: episode, loading, error } = useResolvedResource(route.params?.episode, route.params?.episodeUrl);
@@ -45,7 +46,10 @@ export default function EpisodeDetailScreen({ route, navigation }) {
         <Text style={styles.code}>{episode.episode}</Text>
         <Text style={styles.title}>{episode.name}</Text>
         <Text style={styles.subtitle}>{episode.air_date}</Text>
-        <FavoriteButton item={episode} resourceType="episode" />
+        <View style={styles.actions}>
+          <FavoriteButton item={episode} resourceType="episode" />
+          <ShareButton item={episode} resourceType="episode" />
+        </View>
       </View>
 
       <View style={styles.quickStats}>
@@ -82,13 +86,14 @@ const styles = StyleSheet.create({
   content: { alignSelf: 'center', maxWidth: 760, padding: 20, paddingBottom: 48, width: '100%' },
   hero: { alignItems: 'center', backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 24, borderWidth: 1, padding: 24 },
   filmIcon: { alignItems: 'center', backgroundColor: '#b7f34a18', borderColor: colors.portal, borderRadius: 24, borderWidth: 1, height: 86, justifyContent: 'center', marginBottom: 15, width: 86 },
-  code: { color: colors.portal, fontSize: 12, fontWeight: '900', letterSpacing: 2 },
-  title: { color: colors.text, fontSize: 29, fontWeight: '900', marginTop: 8, textAlign: 'center' },
-  subtitle: { color: colors.muted, fontSize: 14, marginTop: 7 },
+  code: { color: colors.portal, fontFamily: fonts.bodyBold, fontSize: 12, letterSpacing: 2 },
+  title: { color: colors.text, fontFamily: fonts.displayHeavy, fontSize: 27, marginTop: 8, textAlign: 'center' },
+  subtitle: { color: colors.muted, fontFamily: fonts.body, fontSize: 14, marginTop: 7 },
+  actions: { flexDirection: 'row', gap: 10, justifyContent: 'center' },
   quickStats: { flexDirection: 'row', gap: 10, marginTop: 14 },
   quickStat: { alignItems: 'center', backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 15, borderWidth: 1, flex: 1, padding: 13 },
-  quickNumber: { color: colors.text, fontSize: 20, fontWeight: '900' },
-  quickLabel: { color: colors.muted, fontSize: 10, marginTop: 3 },
+  quickNumber: { color: colors.text, fontFamily: fonts.display, fontSize: 20 },
+  quickLabel: { color: colors.muted, fontFamily: fonts.body, fontSize: 10, marginTop: 3 },
   panel: { backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 16, borderWidth: 1, paddingHorizontal: 18 },
   rail: { marginHorizontal: -20, paddingHorizontal: 20 },
 });

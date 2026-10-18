@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 export function DetailRow({ label, value, last = false }) {
   return (
@@ -65,20 +65,20 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   lastRow: { borderBottomWidth: 0 },
-  label: { color: colors.muted, fontSize: 10, fontWeight: '900', letterSpacing: 1, marginBottom: 4, textTransform: 'uppercase' },
-  value: { color: colors.text, fontSize: 16, fontWeight: '800' },
+  label: { color: colors.muted, fontFamily: fonts.bodyBold, fontSize: 10, letterSpacing: 1, marginBottom: 4, textTransform: 'uppercase' },
+  value: { color: colors.text, fontFamily: fonts.bodyBold, fontSize: 16 },
   sectionTitleRow: { alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12, marginTop: 26 },
   sectionCopy: { flex: 1 },
-  eyebrow: { color: colors.cyan, fontSize: 10, fontWeight: '900', letterSpacing: 1.3, marginBottom: 4 },
-  sectionTitle: { color: colors.text, fontSize: 21, fontWeight: '900' },
-  count: { backgroundColor: colors.surfaceRaised, borderRadius: 999, color: colors.portal, fontSize: 12, fontWeight: '900', overflow: 'hidden', paddingHorizontal: 10, paddingVertical: 5 },
+  eyebrow: { color: colors.cyan, fontFamily: fonts.bodyBold, fontSize: 10, letterSpacing: 1.3, marginBottom: 4 },
+  sectionTitle: { color: colors.text, fontFamily: fonts.display, fontSize: 19 },
+  count: { backgroundColor: colors.surfaceRaised, borderRadius: 999, color: colors.portal, fontFamily: fonts.bodyBold, fontSize: 12, overflow: 'hidden', paddingHorizontal: 10, paddingVertical: 5 },
   linkCard: { alignItems: 'center', backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 15, borderWidth: 1, flexDirection: 'row', gap: 12, marginBottom: 10, padding: 14 },
   linkIcon: { alignItems: 'center', backgroundColor: '#45d7df18', borderRadius: 12, height: 44, justifyContent: 'center', width: 44 },
   linkCopy: { flex: 1 },
-  linkLabel: { color: colors.muted, fontSize: 10, fontWeight: '900', letterSpacing: 1, textTransform: 'uppercase' },
-  linkValue: { color: colors.text, fontSize: 15, fontWeight: '900', marginTop: 4 },
+  linkLabel: { color: colors.muted, fontFamily: fonts.bodyBold, fontSize: 10, letterSpacing: 1, textTransform: 'uppercase' },
+  linkValue: { color: colors.text, fontFamily: fonts.bodyBold, fontSize: 15, marginTop: 4 },
   disabled: { opacity: 0.65 },
   pressed: { opacity: 0.75 },
   apiLink: { alignItems: 'center', alignSelf: 'flex-start', flexDirection: 'row', gap: 7, marginTop: 12, paddingVertical: 5 },
-  apiLinkText: { color: colors.cyan, fontSize: 12, fontWeight: '800' },
+  apiLinkText: { color: colors.cyan, fontFamily: fonts.bodyBold, fontSize: 12 },
 });

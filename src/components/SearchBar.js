@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 export default function SearchBar({ value, onChangeText, onSubmit, placeholder, disabled = false }) {
   return (
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   input: {
     color: colors.text,
     flex: 1,
+    fontFamily: fonts.body,
     minHeight: 50,
     paddingHorizontal: 14,
   },

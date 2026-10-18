@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 function ResourceCard({ eyebrow, icon, meta, name, onPress, tone = colors.cyan }) {
   return (
@@ -73,17 +73,18 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     fontSize: 10,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
     letterSpacing: 1.1,
     marginBottom: 4,
   },
   name: {
     color: colors.text,
     fontSize: 17,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
   },
   meta: {
     color: colors.muted,
+    fontFamily: fonts.body,
     fontSize: 12,
     marginTop: 5,
   },

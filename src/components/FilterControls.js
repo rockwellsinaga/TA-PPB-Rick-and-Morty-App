@@ -1,11 +1,15 @@
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
+import { selectionFeedback } from '../utils/feedback';
 
 export function FilterChip({ label, selected, onPress }) {
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => {
+        selectionFeedback();
+        onPress();
+      }}
       style={({ pressed }) => [styles.chip, selected && styles.chipSelected, pressed && styles.pressed]}
     >
       <Text style={[styles.chipText, selected && styles.chipTextSelected]}>{label}</Text>
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.muted,
     fontSize: 11,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
     letterSpacing: 1.1,
     marginBottom: 8,
     textTransform: 'uppercase',
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
   chipText: {
     color: colors.text,
     fontSize: 13,
-    fontWeight: '700',
+    fontFamily: fonts.bodySemiBold,
   },
   chipTextSelected: {
     color: colors.ink,
@@ -92,6 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     color: colors.text,
+    fontFamily: fonts.body,
     minHeight: 46,
     paddingHorizontal: 14,
   },

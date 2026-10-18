@@ -91,11 +91,7 @@ export const fetchResource = (resource, id, fetchImpl) =>
 export const fetchResourceByUrl = (url, fetchImpl) =>
   requestJson(url, fetchImpl);
 
-export const fetchRelatedResources = async (resource, urls = [], fetchImpl) => {
-  const ids = urls
-    .map((url) => url.split('/').filter(Boolean).pop())
-    .filter(Boolean);
-
+export const fetchResourcesByIds = async (resource, ids = [], fetchImpl) => {
   if (ids.length === 0) {
     return [];
   }
@@ -112,6 +108,44 @@ export const fetchRelatedResources = async (resource, urls = [], fetchImpl) => {
   );
 
   return payloads.flatMap((payload) => (Array.isArray(payload) ? payload : [payload]));
+};
+
+export const fetchRelatedResources = (resource, urls = [], fetchImpl) => {
+  const ids = urls
+    .map((url) => url.split('/').filter(Boolean).pop())
+    .filter(Boolean);
+
+  return fetchResourcesByIds(resource, ids, fetchImpl);
+};
+
+export const fetchAllResources = async (resource, fetchImpl) => {
+  const firstPage = await fetchCollection(resource, { page: 1 }, fetchImpl);
+  const results = [...firstPage.results];
+  const pageNumbers = Array.from(
+    { length: Math.max(0, firstPage.info.pages - 1) },
+    (_, index) => index + 2,
+  );
+
+  for (let index = 0; index < pageNumbers.length; index += 6) {
+    const batch = pageNumbers.slice(index, index + 6);
+    const pages = await Promise.all(
+      batch.map((page) => fetchCollection(resource, { page }, fetchImpl)),
+    );
+    pages.forEach((page) => results.push(...page.results));
+  }
+
+  return results;
+};
+
+export const searchAllResources = async (query, fetchImpl) => {
+  const name = query.trim();
+  const [characters, locations, episodes] = await Promise.all([
+    fetchCharacters({ name }, fetchImpl),
+    fetchLocations({ name }, fetchImpl),
+    fetchEpisodes({ name }, fetchImpl),
+  ]);
+
+  return { characters, locations, episodes };
 };
 
 export const getNextPage = (nextUrl) => {

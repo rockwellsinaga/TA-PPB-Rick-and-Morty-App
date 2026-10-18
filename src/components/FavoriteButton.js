@@ -2,7 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { useFavorites } from '../context/FavoritesContext';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
+import { selectionFeedback } from '../utils/feedback';
 
 export default function FavoriteButton({ resourceType, item }) {
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -12,7 +13,10 @@ export default function FavoriteButton({ resourceType, item }) {
     <Pressable
       accessibilityLabel={saved ? 'Remove from favorites' : 'Add to favorites'}
       accessibilityRole="button"
-      onPress={() => toggleFavorite(resourceType, item)}
+      onPress={() => {
+        selectionFeedback();
+        toggleFavorite(resourceType, item);
+      }}
       style={({ pressed }) => [styles.button, saved && styles.saved, pressed && styles.pressed]}
     >
       <Ionicons
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.portal,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
   },
   savedLabel: {
     color: colors.ink,

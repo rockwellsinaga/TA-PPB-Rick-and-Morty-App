@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
+import AmbientBackground from '../components/AmbientBackground';
 import CharacterCard from '../components/CharacterCard';
 import { FilterChip } from '../components/FilterControls';
 import { EpisodeCard, LocationCard } from '../components/ResourceCards';
 import { LoadingState, MessageState } from '../components/ScreenState';
 import { useFavorites } from '../context/FavoritesContext';
-import { colors } from '../theme';
+import { colors, fonts, layout } from '../theme';
 
 const categories = [
   { label: 'All', value: 'all' },
@@ -16,6 +17,8 @@ const categories = [
 ];
 
 export default function FavoritesScreen({ navigation }) {
+  const { width } = useWindowDimensions();
+  const columns = width >= 900 ? 2 : 1;
   const { favorites, ready } = useFavorites();
   const [category, setCategory] = useState('all');
   const visibleFavorites = useMemo(
@@ -38,7 +41,7 @@ export default function FavoritesScreen({ navigation }) {
     return <EpisodeCard episode={favorite.item} onPress={() => openFavorite(favorite)} />;
   };
 
-  if (!ready) return <View style={styles.screen}><LoadingState label="Opening your archive..." /></View>;
+  if (!ready) return <View style={styles.screen}><AmbientBackground /><LoadingState label="Opening your archive..." /></View>;
 
   const header = (
     <View>
@@ -55,24 +58,31 @@ export default function FavoritesScreen({ navigation }) {
   );
 
   return (
-    <FlatList
-      contentContainerStyle={styles.content}
-      data={visibleFavorites}
-      keyExtractor={(favorite) => `${favorite.resourceType}-${favorite.item.id}`}
-      ListEmptyComponent={<MessageState message={favorites.length ? 'Nothing is saved in this category yet.' : 'Use the Save button on any character, location, or episode detail.'} title="Your archive is empty" />}
-      ListHeaderComponent={header}
-      renderItem={renderFavorite}
-      style={styles.screen}
-    />
+    <View style={styles.screen}>
+      <AmbientBackground />
+      <FlatList
+        columnWrapperStyle={columns > 1 ? styles.columns : undefined}
+        contentContainerStyle={styles.content}
+        data={visibleFavorites}
+        key={`favorites-${columns}`}
+        keyExtractor={(favorite) => `${favorite.resourceType}-${favorite.item.id}`}
+        ListEmptyComponent={<MessageState message={favorites.length ? 'Nothing is saved in this category yet.' : 'Use the Save button on any character, location, or episode detail.'} title="Your archive is empty" />}
+        ListHeaderComponent={header}
+        numColumns={columns}
+        renderItem={(item) => <View style={styles.gridItem}>{renderFavorite(item)}</View>}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { backgroundColor: colors.background, flex: 1 },
-  content: { padding: 18, paddingBottom: 40 },
-  eyebrow: { color: colors.portal, fontSize: 10, fontWeight: '900', letterSpacing: 1.5, marginTop: 4 },
-  title: { color: colors.text, fontSize: 34, fontWeight: '900', marginTop: 5 },
-  subtitle: { color: colors.muted, lineHeight: 21, marginTop: 7 },
+  content: { alignSelf: 'center', maxWidth: layout.maxContent, padding: 18, paddingBottom: 120, width: '100%' },
+  columns: { gap: 14 },
+  gridItem: { flex: 1 },
+  eyebrow: { color: colors.portal, fontFamily: fonts.bodyBold, fontSize: 10, letterSpacing: 1.5, marginTop: 4 },
+  title: { color: colors.text, fontFamily: fonts.displayHeavy, fontSize: 34, marginTop: 5 },
+  subtitle: { color: colors.muted, fontFamily: fonts.body, lineHeight: 21, marginTop: 7 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 18 },
-  count: { color: colors.muted, fontSize: 12, fontWeight: '800', marginBottom: 14, marginTop: 18 },
+  count: { color: colors.muted, fontFamily: fonts.bodyBold, fontSize: 12, marginBottom: 14, marginTop: 18 },
 });

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 const statusColor = {
   Alive: colors.portal,
@@ -65,14 +65,14 @@ const styles = StyleSheet.create({
   id: {
     color: colors.cyan,
     fontSize: 10,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
     letterSpacing: 1.1,
     marginBottom: 5,
   },
   name: {
     color: colors.text,
     fontSize: 18,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
   },
   statusRow: {
     alignItems: 'center',
@@ -88,11 +88,13 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.muted,
+    fontFamily: fonts.body,
     fontSize: 11,
     marginBottom: 2,
   },
   meta: {
     color: colors.text,
+    fontFamily: fonts.body,
     fontSize: 12,
   },
   chevron: {

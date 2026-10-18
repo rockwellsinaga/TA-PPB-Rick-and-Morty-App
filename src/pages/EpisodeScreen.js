@@ -1,13 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useCallback, useEffect, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { fetchEpisodes, getNextPage } from '../api/rickAndMortyApi';
+import AmbientBackground from '../components/AmbientBackground';
 import { FilterChips } from '../components/FilterControls';
 import { EpisodeCard } from '../components/ResourceCards';
 import SearchBar from '../components/SearchBar';
 import { LoadingState, MessageState } from '../components/ScreenState';
-import { colors } from '../theme';
+import { colors, fonts, layout } from '../theme';
 
 const seasons = [
   { label: 'All', value: '' },
@@ -18,6 +19,8 @@ const seasons = [
 ];
 
 export default function EpisodeScreen({ navigation }) {
+  const { width } = useWindowDimensions();
+  const columns = width >= 900 ? 2 : 1;
   const [query, setQuery] = useState('');
   const [season, setSeason] = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
@@ -77,45 +80,52 @@ export default function EpisodeScreen({ navigation }) {
   );
 
   if (loading && episodes.length === 0) {
-    return <View style={styles.screen}><View style={styles.loadingHeader}>{header}</View><LoadingState label="Tuning the receiver..." /></View>;
+    return <View style={styles.screen}><AmbientBackground /><View style={styles.loadingHeader}>{header}</View><LoadingState label="Tuning the receiver..." /></View>;
   }
 
   return (
-    <FlatList
-      contentContainerStyle={styles.list}
-      data={episodes}
-      keyExtractor={(item) => String(item.id)}
-      ListEmptyComponent={<MessageState actionLabel="Try again" message={error ?? 'No episode matches this search.'} onAction={() => loadEpisodes()} title={error ? 'Transmission interrupted' : 'No episodes found'} />}
-      ListFooterComponent={nextPage ? (
-        <Pressable disabled={loadingMore} onPress={() => loadEpisodes({ page: nextPage, append: true })} style={styles.loadMore}>
-          <Text style={styles.loadMoreText}>{loadingMore ? 'Receiving...' : 'Load more episodes'}</Text>
-        </Pressable>
-      ) : null}
-      ListHeaderComponent={header}
-      onRefresh={() => loadEpisodes()}
-      refreshing={loading && episodes.length > 0}
-      renderItem={({ item }) => <EpisodeCard episode={item} onPress={() => navigation.navigate('EpisodeDetail', { episode: item })} />}
-      style={styles.screen}
-    />
+    <View style={styles.screen}>
+      <AmbientBackground />
+      <FlatList
+        columnWrapperStyle={columns > 1 ? styles.columns : undefined}
+        contentContainerStyle={styles.list}
+        data={episodes}
+        key={`episodes-${columns}`}
+        keyExtractor={(item) => String(item.id)}
+        ListEmptyComponent={<MessageState actionLabel="Try again" message={error ?? 'No episode matches this search.'} onAction={() => loadEpisodes()} title={error ? 'Transmission interrupted' : 'No episodes found'} />}
+        ListFooterComponent={nextPage ? (
+          <Pressable disabled={loadingMore} onPress={() => loadEpisodes({ page: nextPage, append: true })} style={styles.loadMore}>
+            <Text style={styles.loadMoreText}>{loadingMore ? 'Receiving...' : 'Load more episodes'}</Text>
+          </Pressable>
+        ) : null}
+        ListHeaderComponent={header}
+        numColumns={columns}
+        onRefresh={() => loadEpisodes()}
+        refreshing={loading && episodes.length > 0}
+        renderItem={({ item }) => <View style={styles.gridItem}><EpisodeCard episode={item} onPress={() => navigation.navigate('EpisodeDetail', { episode: item })} /></View>}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { backgroundColor: colors.background, flex: 1 },
-  loadingHeader: { paddingHorizontal: 18, paddingTop: 18 },
-  list: { padding: 18, paddingBottom: 38 },
-  eyebrow: { color: colors.portal, fontSize: 10, fontWeight: '900', letterSpacing: 1.5, marginTop: 4 },
-  title: { color: colors.text, fontSize: 34, fontWeight: '900', marginTop: 5 },
-  subtitle: { color: colors.muted, lineHeight: 21, marginBottom: 17, marginTop: 7 },
+  loadingHeader: { alignSelf: 'center', maxWidth: layout.maxContent, paddingHorizontal: 18, paddingTop: 18, width: '100%' },
+  list: { alignSelf: 'center', maxWidth: layout.maxContent, padding: 18, paddingBottom: 120, width: '100%' },
+  columns: { gap: 14 },
+  gridItem: { flex: 1 },
+  eyebrow: { color: colors.portal, fontFamily: fonts.bodyBold, fontSize: 10, letterSpacing: 1.5, marginTop: 4 },
+  title: { color: colors.text, fontFamily: fonts.displayHeavy, fontSize: 34, marginTop: 5 },
+  subtitle: { color: colors.muted, fontFamily: fonts.body, lineHeight: 21, marginBottom: 17, marginTop: 7 },
   filterToggle: { alignItems: 'center', backgroundColor: colors.surface, borderColor: colors.border, borderRadius: 13, borderWidth: 1, flexDirection: 'row', justifyContent: 'space-between', padding: 13 },
   filterLabel: { alignItems: 'center', flexDirection: 'row', gap: 8 },
-  filterText: { color: colors.text, fontWeight: '800' },
+  filterText: { color: colors.text, fontFamily: fonts.bodyBold },
   filterPanel: { backgroundColor: colors.surface, borderBottomLeftRadius: 14, borderBottomRightRadius: 14, borderColor: colors.border, borderTopWidth: 0, borderWidth: 1, padding: 14 },
   applyButton: { alignItems: 'center', backgroundColor: colors.portal, borderRadius: 10, paddingHorizontal: 16, paddingVertical: 11 },
-  applyText: { color: colors.ink, fontWeight: '900' },
+  applyText: { color: colors.ink, fontFamily: fonts.bodyBold },
   resultRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12, marginTop: 18 },
-  resultCount: { color: colors.text, fontSize: 13, fontWeight: '900' },
-  resultHint: { color: colors.muted, fontSize: 11 },
+  resultCount: { color: colors.text, fontFamily: fonts.bodyBold, fontSize: 13 },
+  resultHint: { color: colors.muted, fontFamily: fonts.body, fontSize: 11 },
   loadMore: { alignItems: 'center', borderColor: colors.portal, borderRadius: 14, borderWidth: 1, marginTop: 2, padding: 15 },
-  loadMoreText: { color: colors.portal, fontWeight: '900' },
+  loadMoreText: { color: colors.portal, fontFamily: fonts.bodyBold },
 });

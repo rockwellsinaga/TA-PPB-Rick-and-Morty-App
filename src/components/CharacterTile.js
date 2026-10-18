@@ -1,6 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 export default function CharacterTile({ character, onPress }) {
   return (
@@ -35,10 +35,11 @@ const styles = StyleSheet.create({
   name: {
     color: colors.text,
     fontSize: 15,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
   },
   meta: {
     color: colors.muted,
+    fontFamily: fonts.body,
     fontSize: 11,
     marginTop: 5,
   },

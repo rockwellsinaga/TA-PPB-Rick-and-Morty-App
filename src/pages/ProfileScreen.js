@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Image, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import AmbientBackground from '../components/AmbientBackground';
 import { LoadingState, MessageState } from '../components/ScreenState';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 const PROFILE_URL = 'https://api.github.com/users/rockwellsinaga';
 
@@ -30,6 +31,7 @@ export default function ProfileScreen() {
   if (!profile && !error) {
     return (
       <View style={styles.screen}>
+        <AmbientBackground />
         <LoadingState label="Loading developer profile..." />
       </View>
     );
@@ -38,6 +40,7 @@ export default function ProfileScreen() {
   if (error) {
     return (
       <View style={styles.screen}>
+        <AmbientBackground />
         <MessageState
           actionLabel="Try again"
           message={error}
@@ -50,6 +53,7 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.screen}>
+      <AmbientBackground />
       <Image source={{ uri: profile.avatar_url }} style={styles.avatar} />
       <Text style={styles.name}>{profile.name || profile.login}</Text>
       <Text style={styles.username}>@{profile.login}</Text>
@@ -81,17 +85,19 @@ const styles = StyleSheet.create({
   },
   name: {
     color: colors.text,
+    fontFamily: fonts.displayHeavy,
     fontSize: 26,
-    fontWeight: '900',
     marginTop: 20,
   },
   username: {
     color: colors.cyan,
+    fontFamily: fonts.bodyMedium,
     fontSize: 16,
     marginTop: 4,
   },
   bio: {
     color: colors.muted,
+    fontFamily: fonts.body,
     lineHeight: 22,
     marginTop: 14,
     maxWidth: 420,
@@ -106,6 +112,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.background,
-    fontWeight: '900',
+    fontFamily: fonts.bodyBold,
   },
 });
